@@ -59,7 +59,7 @@ void input(struct mat*head)//本函数复杂度O(n);
         p=p->next;
     }
 }
-void caculate(struct mat*head,int n)//本函数复杂度为O(n^2)
+void caculate(struct mat*head,int n)//本函数复杂度为O(n)
 {
     float x,y=0;
     int i;
@@ -71,7 +71,7 @@ void caculate(struct mat*head,int n)//本函数复杂度为O(n^2)
         p=p->next;
     }
     printf("the result is %f",y);
-}//综上所述，本算法复杂度为O(n^2);
+}
 void dele(struct mat*head)
 {
     struct mat*p,*q=head->next;
@@ -79,4 +79,5 @@ void dele(struct mat*head)
     {
         free(p);
     }
-}
+}//本函数复杂度为O(n)
+//综上本算法复杂度为O(n)
