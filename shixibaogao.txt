@@ -1,0 +1,122 @@
+姓名：李禹佟
+班级：电信1809
+学号：U201813475
+完成日期：2019年3月25日
+题目：约瑟夫环问题
+1需求分析
+（1）以整数的形式输入参与人数n（>=2)，初始密码m0(>=1)以及每个人的密码m。
+（2）以整数的形式输出出列人员。
+（3）根据输入数据求出出列顺序。
+（4）测试数据：m0=20,n=7,m=3,1,7,2,4,8,4.输出顺序：6147235.
+2 概要设计
+（1）循环单链表
+（2）void main（）
+      {
+        create（）；
+        input（）；
+         game（）；
+       }  
+3详细设计
+#include <stdio.h>
+#include <stdlib.h>
+struct ysf
+{
+    int n;
+    int m;
+    struct ysf*next;
+};
+struct ysf*create(int k)
+{
+   struct ysf*head=NULL,*p,*q;
+   int i=1;
+   while(i<=k)
+   {
+       if(head==NULL)
+       {
+           head=(struct ysf*)malloc(sizeof(struct ysf));
+           head->n=i;
+           p=head;
+       }
+       else
+       {
+           q=p;
+           q->next=(struct ysf*)malloc(sizeof (struct ysf));
+           p=q->next;
+           p->n=i;
+       }
+       i++;
+   }
+   p->next=head;
+   return head;
+}
+int game(struct ysf*head,int m0,int k)
+{
+   int i,j,z,y=m0;
+   struct ysf*p=head,*q;
+   for(i=1;i<=k-1;i++)
+   {
+       for(j=1;j<y;j++)
+       {
+           q=p;
+           p=p->next;
+       }
+       printf("%d\t",p->n);
+       y=p->m;
+       q->next=p->next;
+       free(p);
+       p=q->next;
+   }
+   z=q->n;
+   free(q);
+   return z;
+}
+void input(struct ysf*head,int k)
+{
+    struct ysf*p=head;
+    int i=1;
+    while(i<=k)
+    {
+        scanf("%d",&p->m);
+        p=p->next;
+        i++;
+    }
+}
+void main()
+{
+   int k,m0;
+   struct ysf*head;
+   printf("please input the number of players\n");
+    while(1)
+   {
+       scanf("%d",&k);
+       if(k<1)
+       {
+           printf("error,you must have one person at least");
+           continue;
+       }
+       else if(k==1)
+       {
+           printf("the winner is %d",k);
+           return;
+       }
+       else
+       {
+           break;
+       }
+   }
+   head=create(k);
+   printf("please input the first code\n");
+   scanf("%d",&m0);
+   printf("please input every one's code\n");
+   input(head,k);
+   printf("the winner is %d",game(head,m0,k));
+}
+4调试分析
+（1）测试结果与正确结果不同 错因：输入m时忘记移动指针。
+（2）时空分析：算法时间复杂度为O（n*m）。空间复杂度为O（n）。
+5使用说明
+请先输入人数n再输入初始密码m0
+再输入每个人的密码m即可
+6测试结果输入 3 3  123 结果为213
+输入7 20 3172484 结果为6147235
+7文件名 约瑟夫环
