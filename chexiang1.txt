@@ -1,0 +1,144 @@
+姓名：李禹佟
+班级：电信1809
+学号：U201813475
+完成日期：2019年4月8日
+题目：关于车厢调度问题
+1需求分析
+（1）以整数的形式输入需要调度的车厢
+（2）以整数的形式输出出列情况。
+（3）测试数据n=4，结果为十四种：
+1234
+1243
+1324
+1342
+1432
+2134
+2143
+2314
+2341
+2431
+3214
+3241
+3421
+4321
+2 概要设计
+（1）利用顺序存储的栈进行递归函数
+（2）void main（）
+      {
+         railplay（）；
+       }  
+      应用栈的基本操作：pop（）；push（）；isempty（）；
+3详细设计
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#define N 100
+struct zhan
+{
+    int a[N];
+    int top;
+};
+void push(struct zhan *x,int y)
+{
+    if(x->top==N-1)
+    {
+        printf("the stack is full");
+        return;
+    }
+    x->a[++x->top]=y;
+}
+int pop(struct zhan *x)
+{
+    if(x->top==-1)
+    {
+        printf("the stack is empty");
+        return;
+    }
+    return(x->a[x->top--]);
+}
+int isfull(struct zhan x)
+{
+    if(x.top==N-1)
+    {
+        return 0;
+    }
+    return 1;
+}
+int isempty(struct zhan x)
+{
+    if(x.top==-1)
+    {
+        return 0;
+    }
+    return 1;
+}
+void railplay(struct zhan x,struct  zhan y,int n,int j)//n为车厢总数，k为入站车厢，x为车站，y为出战
+{
+    struct zhan b=x,c=x,d=y,e=y;
+    int i,k=j;
+    if(y.top==n-1)//如果出列已满车箱数则输出
+    {
+        for(i=0;i<=n-1;i++)
+        {
+            printf("%d",y.a[i]);
+        }
+        printf("\n");
+    }
+    else if(k>n)//若车厢全进入则只出站
+    {
+        push(&d,pop(&b));
+        railplay(b,d,n,k);
+    }
+    else if(isempty(x))//若站内不为空则有两个分支，入站和出站
+    {
+        push(&d,pop(&b));
+        push(&c,k);
+        railplay(b,d,n,k);
+        k++;
+        railplay(c,e,n,k);
+    }
+    else if(!isempty(x))//若车站为空则只有入站操作
+    {
+        push(&c,k);
+        k++;
+        railplay(c,e,n,k);
+    }
+}
+void main()
+{
+    struct zhan x,y;
+    int i,n,k=1;
+    y.top=-1;
+    x.top=-1;
+    printf("please input n\n");
+    scanf("%d",&n);
+    railplay(x,y,n,k);
+}
+
+4调试分析
+（1）测试结果与正确结果不同 错因：对判断车厢是否全部进入出了差错，并且最后自栈顶到栈底输出
+（2）时空分析：算法时间复杂度为 C(2n-2,n-1)/n。空间复杂度为O（n）。
+5使用说明
+请先输入车厢数n
+测试结果输入 3  结果为：
+123
+132
+213
+231
+321
+输入4 结果为：
+1234
+1243
+1324
+1342
+1432
+2134
+2143
+2314
+2341
+2431
+3214
+3241
+3421
+4321
